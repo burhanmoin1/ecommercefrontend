@@ -16,7 +16,7 @@ const SessionChecker = ({ children }) => { // Receive children to render if auth
     if (cookieSessionId) {
       // POST request to backend to validate the session ID
       axios
-        .post('http://localhost:8000/adminsessionchecker/', { session_id: cookieSessionId })
+        .post('http://localhost:8000/brandaccountsessionchecker/', { session_id: cookieSessionId })
         .then((response) => {
           if (response.status === 200) {
             setIsAuthenticated(true); // If successful, set authenticated state
@@ -38,7 +38,7 @@ const SessionChecker = ({ children }) => { // Receive children to render if auth
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      router.push('/admin/login'); // Redirect to login page if not authenticated
+      router.push('/brand/login'); // Redirect to login page if not authenticated
     }
   }, [isAuthenticated, router]); // Redirect if authentication fails
 

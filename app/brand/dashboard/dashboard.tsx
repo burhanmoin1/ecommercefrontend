@@ -15,7 +15,7 @@ const Dashboard = () => {
     Cookies.remove('session_id', { secure: true }); // Secure flag to ensure correct deletion
     setIsAuthenticated(false); // Mark as not authenticated
     setErrorMessage('Session ID deleted. You are logged out.'); // Message indicating session deletion
-    router.push('/admin/login'); // Redirect to login page
+    router.push('/brand/login'); // Redirect to login page
   };
   return (
     <div className='dashboard'>

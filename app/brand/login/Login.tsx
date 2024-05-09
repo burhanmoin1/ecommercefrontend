@@ -5,9 +5,9 @@ import Cookies from 'js-cookie';
 import './login.css';
 import { useRouter } from 'next/navigation';
 
-const LoginSuperuser = () => {
+const BrandAccountLogin = () => {
   // State management for form inputs and responses
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [responseMessage, setResponseMessage] = useState<string | null>(null); // For success/error messages
   const router = useRouter();
@@ -18,17 +18,17 @@ const LoginSuperuser = () => {
 
     // Data to send in the POST request
     const data = {
-        login, // Can be email or username
+        email, // Can be email or username
         password,
       };
 
     try {
-      const response = await axios.post('http://localhost:8000/loginsuperuser/', data); // Change the endpoint as needed
+      const response = await axios.post('http://localhost:8000/BrandAccountLogin/', data); // Change the endpoint as needed
 
       if (response.status === 200) {
         const session_id = response.data.session_id;
         Cookies.set('session_id', session_id, { expires: 1, secure: true });
-        router.push('/admin/dashboard');
+        router.push('/brand/dashboard');
         setResponseMessage('Login successful'); // Set success message
       } else {
         // Handle unexpected status
@@ -50,16 +50,16 @@ const LoginSuperuser = () => {
 
   return (
     <div className="addsuperuser">
-      <h2>Login Superuser</h2>
+      <h2>Login Brand</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="login">Email or Username:</label> {/* Combined field */}
+          <label htmlFor="email">Email:</label> {/* Combined field */}
           <input
-            type="text"
-            id="login"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            placeholder="Enter email or username"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
             required
           />
         </div>
@@ -81,4 +81,4 @@ const LoginSuperuser = () => {
   );
 };
 
-export default LoginSuperuser;
+export default BrandAccountLogin;

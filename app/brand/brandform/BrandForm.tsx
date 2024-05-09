@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';  // Import Axios
-import './BrandAccount.css';  // Import CSS styles
+import './BrandForm.css';  // Import CSS styles
 
-const BrandAccount = () => {
+const BrandForm = () => {
     // Set initial state for form fields
     const [formData, setFormData] = useState({
         brand_name: '',
@@ -36,7 +36,7 @@ const BrandAccount = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent default form behavior
         try {
-            const response = await axios.post('http://localhost:8000/brandaccountform/', formData);  // Adjust URL to your API endpoint
+            const response = await axios.post('http://localhost:8000/brandform/', formData);  // Adjust URL to your API endpoint
             console.log('BrandAccount created:', response.data);  // Log response data
         } catch (error) {
             console.error('Error creating BrandAccount:', error);  // Log any errors
@@ -44,7 +44,7 @@ const BrandAccount = () => {
     };
 
     return (
-        <div className='BrandAccount'>
+        <div className='BrandForm'>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Brand Name:</label>
@@ -202,4 +202,4 @@ const BrandAccount = () => {
     );
 };
 
-export default BrandAccount;
+export default BrandForm;
