@@ -31,9 +31,14 @@ interface BrandForm {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const cookieSessionId = Cookies.get('session_id'); // Retrieve session ID from cookies
+
     const fetchBrandForms = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/brandaccount/'); // Send a GET request to the backend
+        // Include session ID as a query parameter in the GET request
+        const response = await axios.get('http://localhost:8000/brandaccount/', {
+          params: { session_id: cookieSessionId },
+        });// Send a GET request to the backend
         setBrandForms(response.data); // Set the list of brand forms
         setIsLoading(false); // Set loading to false after data is retrieved
       } catch (err) {
