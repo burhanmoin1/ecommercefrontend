@@ -1,11 +1,19 @@
 import SessionChecker from "./sessionchecker";
-import Dashboard from "./dashboard";
+import Sidebar from "./Sidebar";
+import './dashboard.css';
+import Header from "./Header";
+import MainContent from "./MainContent";
 
 export default function DashboardPage() {
   return (
     <main>
      <SessionChecker>
-      <Dashboard />
+      <div className="InitialDashboardContainer">
+        <Sidebar />
+          <Header />
+          <MainContent />
+          </div>
+      
      </SessionChecker>
     </main>
   );

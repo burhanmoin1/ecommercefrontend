@@ -1,14 +1,15 @@
 'use client';
 import './dashboard.css';
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { useRouter } from 'next/navigation'; // Use Next.js router for client-side navigation
 import Cookies from 'js-cookie'; // For working with cookies
 
-const Dashboard = () => {
+const Sidebar = () => {
 
   const router = useRouter(); // Instantiate the Next.js router
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // State to track authentication
   const [errorMessage, setErrorMessage] = useState<string | null>(null); 
+  const storedBrandName = localStorage.getItem('brand_name');
 
   const handleDeleteCookie = () => {
     // Delete the session_id cookie
@@ -18,8 +19,8 @@ const Dashboard = () => {
     router.push('/brand/login'); // Redirect to login page
   };
   return (
-    <div className='dashboard'>
-      <h2 className='dashboard-heading'>dashboard</h2>
+    <div className='sidebar'>
+      <h2 className='sidebar-heading'>{storedBrandName}</h2>
       <div>
           <p>Session authenticated. Welcome back!</p>
           <button onClick={handleDeleteCookie}>Log Out</button> {/* Button to delete the session_id cookie */}
@@ -28,4 +29,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Sidebar;

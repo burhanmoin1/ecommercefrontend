@@ -1,0 +1,73 @@
+.InitialDashboardContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    background-color:aliceblue;
+    width: 20vmin;
+    text-align: center;
+    z-index: 1;
+}
+
+.header {
+    background-color: aliceblue;
+    display: flex;
+    position: absolute;
+    flex-direction: row !important;
+    height: 8vh;
+    margin: -10px;
+    width: 99.4%;
+    justify-content: space-around;
+}
+
+.headerandmain {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.maincontent {    
+    z-index: 2;
+    position: absolute;
+    left: 300px;
+    top: 100px
+}
+
+
+@media (max-width: 767.98px) {
+
+    .maincontent {    
+        z-index: 2;
+        position: absolute;
+        left: 140px;
+        top: 100px
+    }
+
+    .sidebar {
+        height: 100vh;
+        position: fixed;
+        background-color:aliceblue;
+        width: 24vmin;
+        font-size: .8rem;
+        margin: -6px;
+        text-align: center;
+        z-index: 1;
+    }
+
+    .header {
+        background-color: aliceblue;
+        display: flex;
+        position: absolute;
+        flex-direction: row !important;
+        height: 8vh;
+        margin: -10px;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+}
+
+

@@ -28,9 +28,10 @@ const BrandAccountLogin = () => {
       if (response.status === 200) {
         const session_id = response.data.session_id;
         const brand_name = response.data.brand_account.brand_name;
-        console.log('Brand Name:', brand_name);
         Cookies.set('session_id', session_id, { expires: 1, secure: true });
-        
+        console.log('Brand Name:', brand_name);
+        localStorage.setItem('brand_name', brand_name);
+
         router.push('/brand/dashboard');
         setResponseMessage('Login successful'); // Set success message
       } else {
