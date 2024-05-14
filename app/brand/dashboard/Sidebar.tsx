@@ -9,7 +9,7 @@ const Sidebar = () => {
   const router = useRouter(); // Instantiate the Next.js router
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // State to track authentication
   const [errorMessage, setErrorMessage] = useState<string | null>(null); 
-  const storedBrandName = localStorage.getItem('brand_name');
+  
 
   const handleDeleteCookie = () => {
     // Delete the session_id cookie
@@ -20,11 +20,10 @@ const Sidebar = () => {
   };
   return (
     <div className='sidebar'>
-      <h2 className='sidebar-heading'>{storedBrandName}</h2>
-      <div>
-          <p>Session authenticated. Welcome back!</p>
-          <button onClick={handleDeleteCookie}>Log Out</button> {/* Button to delete the session_id cookie */}
-        </div>
+      <h2 className='dashboardheading'>Dashboard</h2>
+      <a  href="/brand/dashboard/products" className='sidebarlinks'>Products</a>
+      <button className='logout' onClick={handleDeleteCookie}>Log Out</button> {/* Button to delete the session_id cookie */}
+
     </div>
   );
 };
