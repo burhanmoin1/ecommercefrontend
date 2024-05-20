@@ -28,6 +28,9 @@ const BrandAccountLogin = () => {
       if (response.status === 200) {
         const session_id = response.data.session_id;
         const brand_name = response.data.brand_account.brand_name;
+        const brand_id = response.data.brand_account.id;
+        console.log('Brand ID:', brand_id);
+        localStorage.setItem('brand_id', brand_id);
         Cookies.set('session_id', session_id, { expires: 1, secure: true });
         console.log('Brand Name:', brand_name);
         localStorage.setItem('brand_name', brand_name);

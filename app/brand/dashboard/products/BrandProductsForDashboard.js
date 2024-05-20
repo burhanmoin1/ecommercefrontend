@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const BrandProductsForDashboard = () => {
+    const [primaryCategories, setPrimaryCategories] = useState([]); 
+    const [secondaryCategories, setSecondaryCategories] = useState([]);// State to store primary categories
     const [products, setProducts] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -10,15 +12,15 @@ const BrandProductsForDashboard = () => {
         sku: '',
         primary_category: '',
         secondary_category: '',
-        brand_name: localStorage.getItem('brand_name'),
+        brand_name: localStorage.getItem('brand_id'), // Use brand_id from local storage
         price: ''
     });
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const brandName = localStorage.getItem('brand_name');
-                const response = await axios.get(`http://localhost:8000/brandproductsfordashboard/${brandName}`);
+                const brandId = localStorage.getItem('brand_id'); // Use brand_id from local storage
+                const response = await axios.get(`http://localhost:8000/brandproductsfordashboard/${brandId}`);
                 setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -27,6 +29,36 @@ const BrandProductsForDashboard = () => {
         fetchProducts();
     }, []);
 
+    useEffect(() => {
+        const fetchPrimaryCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/addprimarycategory/');
+                setPrimaryCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching primary categories:', error);
+            }
+        };
+    
+        fetchPrimaryCategories(); // Invoke inside useEffect
+    
+    }, []);    
+
+    const handlePrimaryChange = async (e) => {
+        const primaryCategoryName = e.target.value;
+        setFormData({ ...formData, primary_category: primaryCategoryName });
+
+        try {
+            const response = await axios.get('http://localhost:8000/get_secondary_categories/', {
+                params: {
+                    primary_category_name: primaryCategoryName
+                }
+            });
+            setSecondaryCategories(response.data.secondary_categories);
+        } catch (error) {
+            console.error('Error fetching secondary categories:', error);
+        }
+    };
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -34,10 +66,11 @@ const BrandProductsForDashboard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/brandproductsfordashboard', formData);
+            console.log('form data', formData)
+            await axios.post('http://localhost:8000/brandproductsfordashboard/', formData);
             // After successfully posting a new product, fetch the updated product list
-            const brandName = localStorage.getItem('brand_name');
-            const response = await axios.get(`http://localhost:8000/brandproductsfordashboard/${brandName}`);
+            const brandId = localStorage.getItem('brand_id'); // Use brand_id from local storage
+            const response = await axios.get(`http://localhost:8000/brandproductsfordashboard/${brandId}`);
             setProducts(response.data);
             // Clear form data
             setFormData({
@@ -46,7 +79,7 @@ const BrandProductsForDashboard = () => {
                 sku: '',
                 primary_category: '',
                 secondary_category: '',
-                brand_name: localStorage.getItem('brand_name'),
+                brand_name: localStorage.getItem('brand_id'), // Use brand_id from local storage
                 price: ''
             });
         } catch (error) {
@@ -85,14 +118,24 @@ const BrandProductsForDashboard = () => {
                     <label>SKU:</label>
                     <input type="text" name="sku" value={formData.sku} onChange={handleChange} required />
                     
+                    
                     <label>Primary Category:</label>
-                    <input type="text" name="primary_category" value={formData.primary_category} onChange={handleChange} required />
+                    <select name="primary_category" value={formData.primary_category} onChange={handlePrimaryChange} required>
+                        <option value="">Select Primary Category</option>
+                        {primaryCategories.map(category => (
+                            <option key={category.id} value={category.name}>{category.name}</option>
+                        ))}
+                    </select>
                     
                     <label>Secondary Category:</label>
-                    <input type="text" name="secondary_category" value={formData.secondary_category} onChange={handleChange} required />
-                    
-                    {/* Assuming brand_name is stored in localStorage */}
-                    <input type="hidden" name="brand_name" value={localStorage.getItem('brand_name')} />
+                    <select name="secondary_category" value={formData.secondary_category} onChange={handleChange} required>
+                        <option value="">Select Secondary Category</option>
+                        {secondaryCategories.map(category => (
+                            <option key={category.id} value={category.name}>{category.name} - {category.description}</option>
+                        ))}
+                    </select>
+
+                    <input type="hidden" name="brand_id" value={localStorage.getItem('brand_id')} /> {/* Change to brand_id */}
                     
                     <label>Price:</label>
                     <input type="number" name="price" value={formData.price} onChange={handleChange} required />
@@ -105,4 +148,5 @@ const BrandProductsForDashboard = () => {
 };
 
 export default BrandProductsForDashboard;
+
 
