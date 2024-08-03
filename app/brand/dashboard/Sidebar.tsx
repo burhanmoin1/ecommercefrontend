@@ -18,10 +18,21 @@ const Sidebar = () => {
     setErrorMessage('Session ID deleted. You are logged out.'); // Message indicating session deletion
     router.push('/brand/login'); // Redirect to login page
   };
+
+  const handleProductsButtonClick = () => {
+    const homecontent = document.querySelector('.maincontent') as HTMLElement;
+    const productscontent = document.querySelector('.productcontent') as HTMLElement;
+        if (homecontent) {
+          homecontent.style.display = 'none';
+        }
+        if (productscontent) {
+          productscontent.style.display = 'block';
+        };
+  };
   return (
-    <div className='sidebar'>
+    <div className="h-screen fixed bg-navy flex flex-col text-white m-0 shadow-md w-1/5 text-center z-10">
       <h2 className='dashboardheading'>Dashboard</h2>
-      <a  href="/brand/dashboard/products" className='sidebarlinks'>Products</a>
+      <a className='sidebarlinks' onClick={handleProductsButtonClick}>Products</a>
       <button className='logout' onClick={handleDeleteCookie}>Log Out</button> {/* Button to delete the session_id cookie */}
 
     </div>

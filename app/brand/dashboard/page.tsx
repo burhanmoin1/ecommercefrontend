@@ -2,6 +2,7 @@ import SessionChecker from "./sessionchecker";
 import Sidebar from "./Sidebar";
 import './dashboard.css';
 import Headerandmain from "./Headerandmain";
+import BrandProductsForDashboard from "./BrandProductsForDashboard";
 
 export default function DashboardPage() {
   return (
@@ -10,6 +11,7 @@ export default function DashboardPage() {
       <div className="InitialDashboardContainer">
         <Sidebar />
           <Headerandmain />
+          <BrandProductsForDashboard />
         </div>
       
      </SessionChecker>

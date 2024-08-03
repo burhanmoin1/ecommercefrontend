@@ -29,7 +29,7 @@ const LoginSuperuser = () => {
         const session_id = response.data.session_id;
         Cookies.set('session_id', session_id, { expires: 1, secure: true });
         router.push('/admin/dashboard');
-        setResponseMessage('Login successful'); // Set success message
+        setResponseMessage( 'Login successful'); // Set success message
       } else {
         // Handle unexpected status
         setResponseMessage('An error occurred during login');

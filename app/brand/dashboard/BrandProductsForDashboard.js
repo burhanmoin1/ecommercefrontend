@@ -92,7 +92,7 @@ const BrandProductsForDashboard = () => {
             <div className='header'>
                 <h2 className='headerheading'>search</h2>
             </div>
-            <div className='maincontent'>
+            <div className='productcontent'>
                 <h1>Products for Dashboard</h1>
                 <ul>
                     {products.map(product => (

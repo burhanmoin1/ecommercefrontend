@@ -21,7 +21,7 @@ const AddSuperuser = () => {
 
     try {
       // Send a POST request to the Django endpoint with Axios
-      const response = await axios.post('http://localhost:8000/addsuperuser/', data);
+      const response = await axios.post('http://127.0.0.1:8000/api/superusers/', data);
 
       if (response.status === 201) {
         setResponseMessage('Superuser created successfully, ask admin to confirm identity for access.');

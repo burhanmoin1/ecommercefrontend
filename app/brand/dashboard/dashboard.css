@@ -1,3 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 .InitialDashboardContainer {
     display: flex;
     flex-direction: row;
@@ -20,6 +26,7 @@
 .sidebarlinks {
     text-decoration: none;
     color: white !important;
+    cursor: pointer;
 }
 
 .productform {
@@ -54,6 +61,14 @@
     position: absolute;
     left: 300px;
     top: 100px
+}
+
+.productcontent {    
+    z-index: 2;
+    position: absolute;
+    left: 300px;
+    top: 100px;
+    display: none;
 }
 
 

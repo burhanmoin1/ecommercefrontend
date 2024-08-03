@@ -1,11 +1,30 @@
 'use client';
-import React, { useState } from 'react';
-import axios from 'axios';  // Import Axios
-import './BrandForm.css';  // Import CSS styles
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
+import './BrandForm.css';
 
-const BrandForm = () => {
-    // Set initial state for form fields
-    const [formData, setFormData] = useState({
+
+interface BrandFormTypes {
+    brand_name: string;
+    person_name: string;
+    email: string;
+    phone_number: string;
+    city: string;
+    social_media_presence: boolean;
+    brands_business_operations: string;
+    brands_product_category: string;
+    catalog_size: string;
+    brand_pictures: File[];  // This might be a file input
+    price_range: string;
+    supply_chain: string;
+    inventory: string;
+    star_rating: string;
+    feedback_text: string;
+    website: string;
+}
+
+const BrandForm: React.FC = () => {
+    const [formData, setFormData] = useState<BrandFormTypes>({
         brand_name: '',
         person_name: '',
         email: '',
@@ -15,7 +34,7 @@ const BrandForm = () => {
         brands_business_operations: '',
         brands_product_category: '',
         catalog_size: '',
-        brand_pictures: [],  // This might be a file input
+        brand_pictures: [],  // Initialize as an empty array for file input
         price_range: '',
         supply_chain: '',
         inventory: '',
@@ -24,22 +43,37 @@ const BrandForm = () => {
         website: '',
     });
 
-    // Handle form field changes
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        // Handle boolean values for checkbox inputs
-        const fieldValue = (e.target.type === 'checkbox') ? e.target.checked : value;
+    const [formStatus, setFormStatus] = useState<string>('');
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type, checked, files } = e.target;
+        const fieldValue = type === 'checkbox' ? checked : (type === 'file' ? Array.from(files || []) : value);
         setFormData({ ...formData, [name]: fieldValue });
     };
 
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();  // Prevent default form behavior
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formDataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            if (key === 'brand_pictures') {
+                (formData[key] as File[]).forEach(file => formDataToSend.append(key, file));
+            } else {
+                formDataToSend.append(key, (formData as any)[key]);
+            }
+        });
+
         try {
-            const response = await axios.post('http://localhost:8000/brandform/', formData);  // Adjust URL to your API endpoint
-            console.log('BrandAccount created:', response.data);  // Log response data
+            const response = await axios.post('http://localhost:8000/brandform/', formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('BrandAccount created:', response.data);
+            setFormStatus('Form submitted successfully!');
         } catch (error) {
-            console.error('Error creating BrandAccount:', error);  // Log any errors
+            console.error('Error creating BrandAccount:', error);
+            setFormStatus('Error submitting form.');
         }
     };
 
@@ -136,6 +170,16 @@ const BrandForm = () => {
                     />
                 </div>
                 <div>
+                    <label>Brand Pictures:</label>
+                    <input
+                        type='file'
+                        name='brand_pictures'
+                        multiple
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
                     <label>Price Range:</label>
                     <input
                         type='number'
@@ -198,6 +242,7 @@ const BrandForm = () => {
                     <button type='submit'>Submit</button>
                 </div>
             </form>
+            {formStatus && <p>{formStatus}</p>}
         </div>
     );
 };
